@@ -4,6 +4,7 @@ AllCops:
   Exclude:
     - 'node_modules/**'
     - 'vendor/**'
+    - 'vendor/bundle/**'
     - 'tmp/**'
     - 'log/**'
     - 'public/**'

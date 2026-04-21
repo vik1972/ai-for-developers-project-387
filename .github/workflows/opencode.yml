@@ -29,11 +29,5 @@ jobs:
         uses: anomalyco/opencode/github@latest
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
-          GITHUB_TOKEN: ${{ github.token }}
         with:
           model: opencode/big-pickle
-          prompt: |
-            Рассмотрите этот вопрос. Если есть очевидное решение или соответствующая документация:
-            - Добавьте ссылки на документацию
-            - Добавьте рекомендации по обработке ошибок в примерах кода 
-            В противном случае не комментируйте.
