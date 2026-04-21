@@ -1,0 +1,18 @@
+{
+  "name": "calendar-api-typespec",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "generate": "tsp compile calendar-api.tsp --emit @typespec/openapi3 --output-dir .",
+    "types": "tsp compile calendar-api.tsp --emit @typespec/csharp --output types",
+    "prism": "prism mock @typespec/openapi3/openapi.yaml --dynamic",
+    "prism:static": "prism mock @typespec/openapi3/openapi.yaml"
+  },
+  "devDependencies": {
+    "@stoplight/prism-cli": "^5.10.0",
+    "@typespec/compiler": "^0.67.2",
+    "@typespec/http": "0.67.1",
+    "@typespec/rest": "0.67.1",
+    "@typespec/openapi3": "0.67.1"
+  }
+}

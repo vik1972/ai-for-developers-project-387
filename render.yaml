@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: calendar-booking-app
+    runtime: docker
+    healthCheckPath: /up
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_LOG_LEVEL
+        value: info
+      - key: RAILS_SERVE_STATIC_FILES
+        value: true
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: PORT
+        value: 10000
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: calendar-booking-db
+          property: connectionString
+
+databases:
+  - name: calendar-booking-db
+    databaseName: calendar_booking

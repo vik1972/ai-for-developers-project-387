@@ -1,0 +1,340 @@
+openapi: 3.0.0
+info:
+  title: Calendar API
+  version: 0.0.0
+tags: []
+paths:
+  /available_slots:
+    get:
+      operationId: getAvailableSlots
+      description: Get available time slots for an event on a specific date
+      parameters:
+        - name: event_id
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          explode: false
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+          explode: false
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableSlotsResponse'
+  /bookings:
+    get:
+      operationId: listBookings
+      description: Get all bookings (owner only)
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+    post:
+      operationId: createBooking
+      description: Create a new booking (guest)
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookingRequest'
+  /bookings/{id}:
+    get:
+      operationId: getBooking
+      description: Get a specific booking by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+    delete:
+      operationId: deleteBooking
+      description: Delete a booking (owner only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: 'There is no content to send for this request, but the headers may be useful. '
+  /events:
+    get:
+      operationId: listEvents
+      description: Get all event types (public)
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+    post:
+      operationId: createEvent
+      description: Create a new event type (owner only)
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEventRequest'
+  /events/{id}:
+    get:
+      operationId: getEvent
+      description: Get a specific event by ID (public)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+    delete:
+      operationId: deleteEvent
+      description: Delete an event type (owner only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: 'There is no content to send for this request, but the headers may be useful. '
+  /owner:
+    get:
+      operationId: getOwner
+      description: Get owner information
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+  /owner/dashboard:
+    get:
+      operationId: getDashboard
+      description: Get owner dashboard with all events and bookings
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardResponse'
+components:
+  schemas:
+    AvailableSlotsResponse:
+      type: object
+      required:
+        - available_slots
+      properties:
+        available_slots:
+          type: array
+          items:
+            type: string
+          description: List of available time slots
+    Booking:
+      type: object
+      required:
+        - id
+        - event_id
+        - slot
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Unique identifier for the booking
+        event_id:
+          type: integer
+          format: int32
+          description: Reference to the event
+        slot:
+          type: string
+          description: Booking slot datetime
+        created_at:
+          type: string
+          description: Creation timestamp
+        updated_at:
+          type: string
+          description: Update timestamp
+        event:
+          allOf:
+            - $ref: '#/components/schemas/Event'
+          description: Event details (optional)
+    CreateBookingRequest:
+      type: object
+      required:
+        - event_id
+        - slot
+      properties:
+        event_id:
+          type: integer
+          format: int32
+          description: Reference to the event
+        slot:
+          type: string
+          description: Booking slot datetime
+    CreateEventRequest:
+      type: object
+      required:
+        - name
+        - description
+        - duration
+      properties:
+        name:
+          type: string
+          description: Name of the event type
+        description:
+          type: string
+          description: Description of the event type
+        duration:
+          type: integer
+          format: int32
+          description: Duration in minutes
+    DashboardResponse:
+      type: object
+      required:
+        - owner
+        - events
+        - bookings
+      properties:
+        owner:
+          allOf:
+            - $ref: '#/components/schemas/Owner'
+          description: Owner information
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+          description: Owner events
+        bookings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Booking'
+          description: All bookings
+    Event:
+      type: object
+      required:
+        - id
+        - owner_id
+        - name
+        - description
+        - duration
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Unique identifier for the event
+        owner_id:
+          type: integer
+          format: int32
+          description: Reference to the owner
+        name:
+          type: string
+          description: Name of the event type
+        description:
+          type: string
+          description: Description of the event type
+        duration:
+          type: integer
+          format: int32
+          description: Duration in minutes
+        created_at:
+          type: string
+          description: Creation timestamp
+        updated_at:
+          type: string
+          description: Update timestamp
+        owner:
+          allOf:
+            - $ref: '#/components/schemas/Owner'
+          description: Owner details (optional)
+    Owner:
+      type: object
+      required:
+        - id
+        - name
+        - email
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Unique identifier for the owner
+        name:
+          type: string
+          description: Owner name
+        email:
+          type: string
+          description: Owner email
+        created_at:
+          type: string
+          description: Creation timestamp
+        updated_at:
+          type: string
+          description: Update timestamp
+servers:
+  - url: http://localhost:3001
+    description: Calendar API server
+    variables: {}

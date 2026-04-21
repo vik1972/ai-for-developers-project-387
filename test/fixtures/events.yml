@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Consultation
+  description: Test event
+  duration: 30
+  owner: one
+
+two:
+  name: Meeting
+  description: Another test event
+  duration: 60
+  owner: one

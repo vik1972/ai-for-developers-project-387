@@ -1,0 +1,30 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "postgres": {
+      "type": "local",
+      "command": ["docker", "run", "--network", "host", "-i", "--rm", "crystaldba/postgres-mcp", "--access-mode=restricted"],
+      "enabled": true,
+      "environment": {
+        "DATABASE_URI": "postgresql://mcp_readonly:mcp_secure_pass_2024@localhost:5432/tn_qna_development?sslmode=disable"
+      }
+    },
+    "githab_server": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ]
+    },
+    "render": {
+      "type": "local",
+      "command": ["docker", "run", "-i", "--rm", "-e", "RENDER_API_KEY", "-v", "render-mcp-server-config:/config", "ghcr.io/render-oss/render-mcp-server"],
+      "enabled": true,
+      "environment": {
+        "RENDER_API_KEY": "rnd_PI655DYh59OeyPgPZZxgzq6JYGoF"
+      }
+    }
+  },
+  "skills": {}
+}

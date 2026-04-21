@@ -1,0 +1,2 @@
+module Api::AvailableSlotsHelper
+end

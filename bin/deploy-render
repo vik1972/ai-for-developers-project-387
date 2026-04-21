@@ -1,0 +1,35 @@
+#!/bin/bash
+# Скрипт для локального деплоя на Render через CLI
+
+set -e
+
+echo "🚀 Деплой calendar-booking-app на Render"
+echo ""
+
+# Проверка наличия render CLI
+if ! command -v render &> /dev/null; then
+    echo "❌ Render CLI не найден. Устанавливаем..."
+    
+    # Установка render CLI
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        curl -fsSL https://raw.githubusercontent.com/render-oss/render-cli/main/install.sh | bash
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install render
+    else
+        echo "Установите Render CLI вручную: https://render.com/docs/cli"
+        exit 1
+    fi
+fi
+
+# Проверка авторизации
+if ! render config get defaultProfile &> /dev/null; then
+    echo "🔑 Необходима авторизация в Render..."
+    render login
+fi
+
+echo "📦 Сборка и деплой через Blueprint..."
+render blueprint launch
+
+echo ""
+echo "✅ Деплой запущен!"
+echo "📊 Отслеживайте статус: https://dashboard.render.com"

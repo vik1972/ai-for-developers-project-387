@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .content {
+      background: #f9fafb;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .details {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #22c55e;
+    }
+    .detail-row {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    .detail-label {
+      font-weight: 600;
+      width: 120px;
+      color: #6b7280;
+    }
+    .detail-value {
+      flex: 1;
+    }
+    .footer {
+      text-align: center;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+    .button {
+      display: inline-block;
+      background: #22c55e;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 6px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>✅ Бронирование подтверждено</h1>
+  </div>
+
+  <div class="content">
+    <p>Здравствуйте, <%= @booking.guest_name || "гость" %>!</p>
+
+    <p>Ваше бронирование подтверждено. Вот детали вашей встречи:</p>
+
+    <div class="details">
+      <div class="detail-row">
+        <div class="detail-label">Событие:</div>
+        <div class="detail-value"><%= @event.name %></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Дата:</div>
+        <div class="detail-value"><%= @booking.slot.strftime("%d.%m.%Y") %></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Время:</div>
+        <div class="detail-value"><%= @booking.slot.strftime("%H:%M") %></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Длительность:</div>
+        <div class="detail-value"><%= @event.duration %> минут</div>
+      </div>
+      <% if @booking.location_type.present? %>
+      <div class="detail-row">
+        <div class="detail-label">Формат:</div>
+        <div class="detail-value"><%= @booking.location_type %></div>
+      </div>
+      <% end %>
+      <% if @booking.location_url.present? %>
+      <div class="detail-row">
+        <div class="detail-label">Ссылка:</div>
+        <div class="detail-value"><a href="<%= @booking.location_url %>"><%= @booking.location_url %></a></div>
+      </div>
+      <% end %>
+    </div>
+
+    <% if @booking.notes.present? %>
+    <p><strong>Ваши заметки:</strong> <%= @booking.notes %></p>
+    <% end %>
+
+    <p>До встречи!</p>
+  </div>
+
+  <div class="footer">
+    <p>Это автоматическое сообщение от системы бронирования.</p>
+    <p><%= @owner.name %></p>
+  </div>
+</body>
+</html>

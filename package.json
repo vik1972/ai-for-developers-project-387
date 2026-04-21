@@ -1,0 +1,21 @@
+{
+  "name": "ai-for-developers-project-386",
+  "version": "1.0.0",
+  "description": "В проекте есть две роли: владелец календаря и гости.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@mantine/dates": "^7.17.8",
+    "dayjs": "^1.11.20",
+    "lucide-react": "^1.7.0"
+  }
+}

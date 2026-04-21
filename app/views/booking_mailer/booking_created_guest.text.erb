@@ -1,0 +1,23 @@
+Бронирование подтверждено
+============================
+
+Здравствуйте, <%= @booking.guest_name || "гость" %>!
+
+Ваше бронирование подтверждено.
+
+ДЕТАЛИ ВСТРЕЧИ:
+- Событие: <%= @event.name %>
+- Дата: <%= @booking.slot.strftime("%d.%m.%Y") %>
+- Время: <%= @booking.slot.strftime("%H:%M") %>
+- Длительность: <%= @event.duration %> минут
+<% if @booking.location_type.present? %>- Формат: <%= @booking.location_type %><% end %>
+<% if @booking.location_url.present? %>- Ссылка: <%= @booking.location_url %><% end %>
+<% if @booking.notes.present? %>
+
+Ваши заметки: <%= @booking.notes %><% end %>
+
+До встречи!
+
+---
+Это автоматическое сообщение от системы бронирования.
+<%= @owner.name %>
