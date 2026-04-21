@@ -42,6 +42,7 @@ class Api::AvailableSlotsController < ApplicationController
 
   private
 
+  # Handle exception availability
   def handle_exception_availability(exception, event, date)
     return [] unless exception.is_available
 
@@ -56,6 +57,7 @@ class Api::AvailableSlotsController < ApplicationController
     end
   end
 
+  # Handle schedule availability
   def handle_schedule_availability(day_schedule, event, date)
     return [] unless day_schedule["enabled"]
 
