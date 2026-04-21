@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rails *)",
+      "Bash(mkdir *)",
+      "Bash(bundle *)",
+      "Bash(npm install *)",
+      "Bash(sleep *)",
+      "Bash(curl *)",
+      "Bash(npm run *)",
+      "Bash(jq *)"
+    ]
+  },
+  "$version": 3
+}

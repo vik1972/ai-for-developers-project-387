@@ -1,1 +1,29 @@
-node_modules
+# Temporary files
+tmp/cache/
+tmp/
+log/
+
+# Databases
+storage/
+storage/*.sqlite3*
+
+# Node modules
+node_modules/
+frontend/node_modules/
+typespec/node_modules/
+
+# Build output
+frontend/dist/
+
+# Test results
+frontend/playwright-report/
+frontend/test-results/
+test-results/
+
+# IDE
+.idea/
+
+# Mailer previews and tests (auto-generated)
+test/mailers/previews/
+test/mailers/*_test.rb
+
