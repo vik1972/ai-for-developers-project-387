@@ -65,6 +65,7 @@ class Api::AvailableSlotsController < ApplicationController
     generate_slots_for_time_range(date, start_time, end_time, event.duration)
   end
 
+  # Generate slots for a time range
   def generate_slots_for_time_range(date, start_time_str, end_time_str, duration)
     slots = []
     date_str = date.to_s
