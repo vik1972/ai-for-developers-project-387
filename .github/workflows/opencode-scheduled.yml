@@ -2,7 +2,7 @@ name: Scheduled OpenCode Task
 
 on:
   schedule:
-    - cron: "0 23 * * *" # Every day at 23pm UTC
+    - cron: "0 03 * * *" # Every day at 23pm UTC
 
 jobs:
   opencode:
@@ -21,9 +21,9 @@ jobs:
       - name: Run OpenCode
         uses: anomalyco/opencode/github@latest
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
         with:
-          model: anthropic/big-pickle
+          model: opencode/big-pickle
           prompt: |
             Review the codebase for any TODO comments and create a summary.
             If you find issues worth addressing, open an issue to track them.
