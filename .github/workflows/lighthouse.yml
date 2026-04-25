@@ -1,0 +1,46 @@
+name: Lighthouse Audit
+
+on:
+  schedule:
+    - cron: "0 23 * * *"
+  workflow_dispatch:
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Lighthouse
+        run: npm install -g lighthouse@12
+
+      - name: Run Lighthouse for Home page
+        run: |
+          lighthouse https://calendar-booking-app-6f0s.onrender.com/ \
+            --output-path=./lhci-report-home \
+            --output=html,json \
+            --preset=desktop \
+            --quiet \
+            --chrome-flags="--headless"
+
+      - name: Run Lighthouse for Booking page
+        run: |
+          lighthouse https://calendar-booking-app-6f0s.onrender.com/booking/1 \
+            --output-path=./lhci-report-booking \
+            --output=html,json \
+            --preset=desktop \
+            --quiet \
+            --chrome-flags="--headless"
+
+      - name: Upload reports as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports-${{ github.run_date }}
+          path: lhci-report-*
+          retention-days: 30
